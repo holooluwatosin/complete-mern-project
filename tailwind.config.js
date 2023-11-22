@@ -12,8 +12,11 @@ export default {
         "red": "#FF6868",
         "secondary": "#555",
         "prigmayBG": "#FCFCFC"
-      }
+      },
+      // fontFamily: {
+      //   "primary": ['Inter', 'sans-serif']
+      // }
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
