@@ -5,4 +5,7 @@ body {
     background-color: #FCFCFC;
 }
 
+.section-container {
+    @apply max-w-screen-2xl container mx-auto lg:px-24 p-4
+}
 
