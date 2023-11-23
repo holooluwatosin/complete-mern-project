@@ -8,7 +8,7 @@ const Main = () => {
     <div className='h-screen'>
       <Navbar />
       <Outlet />
-      <footer>Footer</footer>
+      {/* <footer>Footer</footer> */}
     </div>
   )
 }

@@ -9,7 +9,7 @@ const Banner = () => {
               <img src="/images/home/banner.png" alt="" />
 
               <div className='flex flex-col md:flex-row items-center justify-around -mt-14 gap-4'>
-                <div className='flex bg-white py-2 px-3 items-center rounded-2xl gap-3 shadow-md w-64'>
+                <div className='flex bg-white py-2 pl-2 pr-4 items-center rounded-2xl gap-3 shadow-md w-64'>
                   <img src="/images/home/b-food1.png" alt="" className='rounded-2xl' />
                   <div className='space-y-1 pr-2'>
                     <h5 className='font-medium mb-1'>Spicy noodles</h5>
@@ -25,8 +25,9 @@ const Banner = () => {
                   </div>
                 </div>
 
-                <div className='sm:flex hidden bg-white py-3 px-2 items-center rounded-2xl gap-3 shadow-md w-64'>
+                <div className='md:flex hidden bg-white py-3 pl-2 pr-4 items-center rounded-2xl gap-3 shadow-md w-64'>
                   <img src="/images/home/b-food1.png" alt="" className='rounded-2xl' />
+                  {/* <img src="/images/home/b-food1.png" alt="" className='rounded-2xl h-full w-full md:w-1/2' /> */}
                   <div className='space-y-1'>
                     <h5 className='font-medium mb-1'>Spicy noodles</h5>
                     <div className="rating rating-sm">
