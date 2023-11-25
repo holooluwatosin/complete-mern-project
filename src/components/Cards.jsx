@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHeart } from 'react-icons/fa'
+import { FaHeart } from 'react-icons/fa';
 
 const Cards = ({item}) => {
     const  [isHeartFilled, setIsHeartFilled] = useState(false);
@@ -21,9 +21,11 @@ const Cards = ({item}) => {
                 </figure>
             </Link>
             <div className="card-body">
-                <h2 className="card-title">
-                    {item.name}
-                </h2>
+                <Link to={`/menu/${item._id}`}>
+                    <h2 className="card-title">
+                        {item.name}
+                    </h2>
+                </Link>
                 <p>Description of the item</p>
                 <div className="card-actions justify-between items-center mt-2">
                     <h5 className='font-semibold'>
