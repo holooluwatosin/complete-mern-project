@@ -71,8 +71,8 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <a href='/'>
-                        ewa-agoyin
-                        {/* <img src={logo} alt="logo" /> */}
+                        {/* ewa-agoyin */}
+                        <img src={logo} alt="logo" />
                     </a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
