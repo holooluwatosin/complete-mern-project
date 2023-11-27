@@ -13,6 +13,8 @@ const Banner = () => {
                   <img src="/images/home/b-food1.png" alt="" className='rounded-2xl' />
                   <div className='space-y-1 pr-2'>
                     <h5 className='font-medium mb-1'>Spicy noodles</h5>
+
+                    {/* Rating component from daisyUI */}
                     <div className="rating rating-sm x">
                       <input type="radio" name="rating-2" className="mask mask-star-2 bg-yellow-500" readOnly />
                       <input type="radio" name="rating-2" className="mask mask-star-2 bg-yellow-500" readOnly />
@@ -30,6 +32,8 @@ const Banner = () => {
                   {/* <img src="/images/home/b-food1.png" alt="" className='rounded-2xl h-full w-full md:w-1/2' /> */}
                   <div className='space-y-1'>
                     <h5 className='font-medium mb-1'>Spicy noodles</h5>
+
+                    {/* Rating component from daisyUI */}
                     <div className="rating rating-sm">
                       <input type="radio" name="rating-2" className="mask mask-star-2 bg-yellow-500" readOnly />
                       <input type="radio" name="rating-2" className="mask mask-star-2 bg-yellow-500" readOnly />

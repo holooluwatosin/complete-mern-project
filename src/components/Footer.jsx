@@ -2,7 +2,8 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div>
+    <div className='footer-settings'>
+        {/* Footer component from daisyUI */}
         <footer className="footer xl:px-24 py-10 px-4 text-base-content">
             <aside>
                 <img src='/logo.png' />
@@ -10,26 +11,34 @@ const Footer = () => {
                     Savor the artistry where every dish is a culinary masterpiece
                 </p>
             </aside> 
-            <nav>
+            {/* PS: It was formerly like this, but i changed it because the z-index was overlapping. */}
+            {/* <nav>
                 <header className="footer-title text-black">Useful links</header>
                 <a className="link link-hover">About us</a>
                 <a className="link link-hover">Events</a>
                 <a className="link link-hover">Blogs</a>
                 <a className="link link-hover">FAQ</a>
-            </nav>
-            <nav>
-                <header className="footer-title">Main Menu</header>
+            </nav> */}
+            <div>
+                <div className="footer-title text-black">Useful links</div>
+                <a className="link link-hover">About us</a>
+                <a className="link link-hover">Events</a>
+                <a className="link link-hover">Blogs</a>
+                <a className="link link-hover">FAQ</a>
+            </div>
+            <div>
+                <div className="footer-title">Main Menu</div>
                 <a className="link link-hover">Home</a>
                 <a className="link link-hover">Offers</a>
                 <a className="link link-hover">Menus</a>
                 <a className="link link-hover">Reservation</a>
-            </nav>
-            <nav>
-                <header className="footer-title">Contact Us</header>
+            </div>
+            <div>
+                <div className="footer-title">Contact Us</div>
                 <a className="link link-hover">example@email.com</a>
                 <a className="link link-hover">+64 958 248 966</a>
                 <a className="link link-hover">Social media</a>
-            </nav>
+            </div>
         </footer>
         <hr />
         <footer className="footer items-center xl:px-24 px-4 py-4 mt-2">

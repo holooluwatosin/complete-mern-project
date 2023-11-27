@@ -39,11 +39,11 @@ const SpecialDishes = () => {
         fetch("/menu.json")
         .then(res => res.json())
         .then(data => {
-            console.log('data', data);
+            // console.log('data', data);
             const specials = data.filter((item) => {
                 return item.category === "popular";
             })
-            console.log('specials', specials);
+            // console.log('specials', specials);
             setRecipes(specials)
         })
     }, [])

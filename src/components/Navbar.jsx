@@ -25,12 +25,13 @@ const Navbar = () => {
     const navItems = (
         <>
             <li>
-                <a href='/'>Home</a>
+                <a href='/' className='text-green'>Home</a>
             </li>
             <li tabIndex={0}>
                 <details>
                 <summary>Menu</summary>
                 <ul className="p-2">
+                    <li><a href='/menu'>All</a></li>
                     <li><a>Ewa-Agoyin</a></li>
                     <li><a>Jollof</a></li>
                 </ul>
@@ -58,7 +59,6 @@ const Navbar = () => {
 
     return (
         <header className='max-w-screen-2xl container mx-auto fixed top-0 right-0 left-0 transition-all duration-300 ease-in-out'>
-        {/* <header  className={`max-w-screen-2xl container mx-auto fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out`}> */}
             <div className={`navbar lg:px-24 ${isSticky ? "shadow-md bg-base-100 transition-all duration-300 ease-in-out" :  ""}`}>
             {/* <div className="navbar lg:px-24"> */}
                 <div className="navbar-start">
