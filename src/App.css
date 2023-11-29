@@ -73,3 +73,7 @@ header, nav{
 .footer-settings {
     z-index: -1000;
 }
+
+.aa {
+    border-radius: 10px;
+}
