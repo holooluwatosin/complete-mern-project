@@ -8,7 +8,7 @@ const Menu = () => {
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [sortOption, setSortOption] = useState("default");
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(9); // Number of items to display per page
+    const [itemsPerPage] = useState(6); // Number of items to display per page
 
     useEffect(() => {
         // Fetch data from the backend
@@ -26,6 +26,7 @@ const Menu = () => {
         fetchData();
     }, []);
 
+    // Filtering based on category
     const filterItems = (category) => {
         const filtered =
         category === "all"
@@ -46,37 +47,29 @@ const Menu = () => {
 
     // Sorting based on A-Z, Z-A and Low-High pricing.
     const handleSortChange = (option) => {
+        console.log("Selected sort option:", option); 
+
         setSortOption(option);
     
         // Logic for sorting based on the selected option
         let sortedItems = [...filteredItems];
-
-        const a = sortedItems.sort((a, b) => a.name.localeCompare(b.name));
-        console.log("A-Z", a);
-
-        const b = sortedItems.sort((a, b) => b.name.localeCompare(a.name));
-        console.log("Z-A", b);
     
         switch (option) {
             case "A-Z":
                 sortedItems.sort((a, b) => a.name.localeCompare(b.name));
-                // const a = sortedItems.sort((a, b) => a.name.localeCompare(b.name));
-                // console.log("A-Z", a);
+                console.log('A-Z')
                 break;
             case "Z-A":
                 sortedItems.sort((a, b) => b.name.localeCompare(a.name));
-                // const b = sortedItems.sort((a, b) => b.name.localeCompare(a.name));
-                // console.log("Z-A", b);
+                console.log("Z-A");
                 break;
             case "low-to-high":
                 sortedItems.sort((a, b) => a.price - b.price);
-                // const c = sortedItems.sort((a, b) => a.price - b.price);
-                // console.log("low-to-high", c);
+                console.log("low-to-high");
                 break;
             case "high-to-low":
                 sortedItems.sort((a, b) => b.price - a.price);
-                // const d = sortedItems.sort((a, b) => b.price - a.price);
-                // console.log("high-to-low", d);
+                console.log("high-to-low");
                 break;
             default:
                 // Do nothing for the "default" case
@@ -87,7 +80,8 @@ const Menu = () => {
         setCurrentPage(1);
     };
     
-    //   console.log(filteredItems);
+    // console.log(filteredItems);
+
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -196,7 +190,7 @@ const Menu = () => {
                     key={index + 1}
                     onClick={() => paginate(index + 1)}
                     className={`mx-1 px-3 py-1 rounded-full ${
-                    currentPage === index + 1 ? "bg-green text-white" : "bg-gray-200"
+                        currentPage === index + 1 ? "bg-green text-white" : "bg-gray-200"
                     }`}
                 >
                     {index + 1}
