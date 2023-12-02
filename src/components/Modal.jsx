@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../contexts/AuthProvider';
 
 const Modal = () => {
     const {
@@ -10,6 +11,9 @@ const Modal = () => {
         watch,
         formState: { errors },
     } = useForm()
+
+    // From contexts/AuthProvider
+    const {} = useContext(AuthContext)
 
     const onSubmit = (data) => console.log(data)
 
@@ -27,7 +31,7 @@ const Modal = () => {
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
-                        <input type="email" placeholder="email" className="input input-bordered" {...register("email")} required />
+                        <input type="email" placeholder="email" className="input input-bordered" {...register("email")}  />
                     </div>
 
                     {/* Password */}
@@ -35,7 +39,7 @@ const Modal = () => {
                         <label className="label">
                             <span className="label-text">Password</span>
                         </label>
-                        <input type="password" placeholder="password" className="input input-bordered" {...register("password")} required />
+                        <input type="password" placeholder="password" className="input input-bordered" {...register("password")}  />
                         <label className="label mt-1">
                             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                         </label>
@@ -55,7 +59,10 @@ const Modal = () => {
                         </Link>
                     </p>
 
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    <button
+                    htmlFor="my_modal_5"
+                    onClick={()=>document.getElementById('my_modal_5').close()} 
+                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
 
                 {/* Social Signin */}
