@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import Modal from './Modal';
+import { AuthContext } from '../contexts/AuthProvider';
 
 const Signup = () => {
+    // From contexts/AuthProvider
+    const { createUser, login } = useContext(AuthContext)
 
     // From react-hook-form (i.e. https://react-hook-form.com/get-started)
     const {
@@ -14,7 +17,24 @@ const Signup = () => {
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = (data) => {
+        const email = data.email;
+        const password = data.password;
+        // console.log(email, password)
+        createUser(email, password)
+            .then((result) => {
+            // Signed up 
+            const user = result.user;
+            alert("Account creation successful!");
+            Navigate(from, { replace: true });
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(`${errorMessage}`)
+            // ..
+        });
+      };
 
   return (
     <div className="max-w-md bg-white shadow w-full mx-auto flex items-center justify-center my-20">

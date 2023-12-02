@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../contexts/AuthProvider';
 
 const Modal = () => {
+    // From contexts/AuthProvider
+    const { signUpWithGmail, login } = useContext(AuthContext)
     const [errorMessage, seterrorMessage] = useState("");
 
     const {
@@ -13,12 +15,6 @@ const Modal = () => {
         watch,
         formState: { errors },
     } = useForm()
-
-    
-    // From contexts/AuthProvider
-    const { signUpWithGmail, login } = useContext(AuthContext)
-    
-    // const onSubmit = (data) => console.log(data)
     
     // login with google
     const handleLogin = () => {
@@ -43,7 +39,7 @@ const Modal = () => {
             // console.log(user);
             alert("Login successful!");
             document.getElementById("my_modal_5").close()
-            Navigate(from, { replace: true });
+            // Navigate(from, { replace: true });
             // ...
           })
           .catch((error) => {
@@ -81,6 +77,16 @@ const Modal = () => {
                         </label>
                     </div>
 
+                    {/* show errors */}
+                    {errorMessage ? (
+                    <p className="text-red text-xs italic">
+                        Provide a correct username & password.
+                        {seterrorMessage}
+                    </p>
+                    ) : (
+                    ""
+                    )}
+
                     {/* Login Button */}
                     <div className="form-control mt-6">
                         <input type="submit" value="Login" className="btn bg-green" />
@@ -88,7 +94,7 @@ const Modal = () => {
 
                     {/* Signup */}
                     <p className="text-center my-2">
-                        Donot have an account? 
+                        Don't have an account? 
 
                         <Link to="/signup" className="underline text-red ml-1">
                             Signup Now
