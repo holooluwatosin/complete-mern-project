@@ -10,7 +10,7 @@ const Navbar = () => {
 
     // Reference contexts/AuthProvider.jsx 
     const {user} = useContext(AuthContext);
-    console.log(user);
+    console.log("User", user);
 
     // Handle scroll function
     useEffect(() => {

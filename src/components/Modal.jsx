@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../contexts/AuthProvider';
 
 const Modal = () => {
+    const [errorMessage, seterrorMessage] = useState("");
+
     const {
         register,
         handleSubmit,
@@ -12,12 +14,46 @@ const Modal = () => {
         formState: { errors },
     } = useForm()
 
+    
     // From contexts/AuthProvider
-    const {} = useContext(AuthContext)
+    const { signUpWithGmail, login } = useContext(AuthContext)
+    
+    // const onSubmit = (data) => console.log(data)
+    
+    // login with google
+    const handleLogin = () => {
+        signUpWithGmail()
+        .then((result) => {
+            const user = result.user;
+            alert("Login successful!")
+            // navigate(from, { replace: true });
+        })
+        .catch((error) => console.log(error));
+    };
 
-    const onSubmit = (data) => console.log(data)
+    // Register
+    const onSubmit = (data) => {
+        const email = data.email;
+        const password = data.password;
+        console.log("User credentials", email, password);
+        login(email, password)
+          .then((result) => {
+            // Signed in
+            const user = result.user;
+            // console.log(user);
+            alert("Login successful!");
+            document.getElementById("my_modal_5").close()
+            Navigate(from, { replace: true });
+            // ...
+          })
+          .catch((error) => {
+            const errorMessage = error.message;
+            seterrorMessage("Please provide valid email & password!");
+          });
+          reset()
+    };
 
-  return (
+    return (
     <dialog id="my_modal_5" className="modal modal-middle sm:modal-middle">
     {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
         <div className="modal-box">
@@ -67,7 +103,7 @@ const Modal = () => {
 
                 {/* Social Signin */}
                 <div className='text-center space-x-3 mb-5'>
-                    <button className="btn btn-circle hover:bg-green hover:text-white">
+                    <button className="btn btn-circle hover:bg-green hover:text-white" onClick={handleLogin}>
                         <FaGoogle />
                     </button>
                     <button className="btn btn-circle hover:bg-green hover:text-white">
