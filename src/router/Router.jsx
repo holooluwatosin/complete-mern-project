@@ -3,6 +3,8 @@ import Main from "../layouts/Main";
 import Home from "../pages/home/Home";
 import Menu from "../pages/shop/Menu";
 import Signup from "../components/Signup";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import UpdateProfile from "../pages/dashboard/UpdateProfile";
 
 const router = createBrowserRouter([
     {
@@ -15,7 +17,11 @@ const router = createBrowserRouter([
         },
         {
           path: "/menu",
-          element: <Menu />,
+          element: <PrivateRoute><Menu /></PrivateRoute>,
+        },
+        {
+          path: "/update-profile",
+          element: <UpdateProfile />,
         }
       ]
     },

@@ -11,6 +11,8 @@ const Signup = () => {
 
     const location = useLocation();
     const navigate = useNavigation();
+    const from = location.state?.from?.pathname || "/";
+
 
     // From react-hook-form (i.e. https://react-hook-form.com/get-started)
     const {
