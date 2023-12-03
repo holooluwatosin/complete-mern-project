@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useLocation, useNavigation } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import Modal from './Modal';
 import { AuthContext } from '../contexts/AuthProvider';
@@ -8,6 +8,9 @@ import { AuthContext } from '../contexts/AuthProvider';
 const Signup = () => {
     // From contexts/AuthProvider
     const { createUser, login } = useContext(AuthContext)
+
+    const location = useLocation();
+    const navigate = useNavigation();
 
     // From react-hook-form (i.e. https://react-hook-form.com/get-started)
     const {
@@ -26,7 +29,7 @@ const Signup = () => {
             // Signed up 
             const user = result.user;
             alert("Account creation successful!");
-            Navigate(from, { replace: true });
+            navigate(from, { replace: true });
         })
         .catch((error) => {
             const errorCode = error.code;

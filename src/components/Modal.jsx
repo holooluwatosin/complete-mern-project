@@ -1,13 +1,18 @@
 import React, { useContext, useState } from 'react'
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useLocation, useNavigation } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../contexts/AuthProvider';
 
 const Modal = () => {
     // From contexts/AuthProvider
     const { signUpWithGmail, login } = useContext(AuthContext)
-    const [errorMessage, seterrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
+    // Redirecting to home page or a specific page
+    const location = useLocation();
+    const navigate = useNavigation();
+    const from = location.state?.from?.pathname || "/";
 
     const {
         register,
@@ -22,7 +27,7 @@ const Modal = () => {
         .then((result) => {
             const user = result.user;
             alert("Login successful!")
-            // navigate(from, { replace: true });
+            navigate(from, { replace: true });
         })
         .catch((error) => console.log(error));
     };
@@ -39,14 +44,14 @@ const Modal = () => {
             // console.log(user);
             alert("Login successful!");
             document.getElementById("my_modal_5").close()
-            // Navigate(from, { replace: true });
+            // navigate(from, { replace: true });
             // ...
           })
           .catch((error) => {
             const errorMessage = error.message;
-            seterrorMessage("Please provide valid email & password!");
+            setErrorMessage("Please provide valid email & password!");
           });
-          reset()
+        //   reset()
     };
 
     return (
@@ -80,8 +85,7 @@ const Modal = () => {
                     {/* show errors */}
                     {errorMessage ? (
                     <p className="text-red text-xs italic">
-                        Provide a correct username & password.
-                        {seterrorMessage}
+                        {errorMessage}
                     </p>
                     ) : (
                     ""
