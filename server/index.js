@@ -47,7 +47,12 @@ async function run() {
     })
 
     // get carts using email
-    app.get()
+    app.get('/cart', async (req, res) => {
+      const emailAddress = req.query.email
+      const cartItemList = { email: emailAddress }
+      const result = await cartCollections.find(cartItemList).toArray()
+      res.send(result);
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
