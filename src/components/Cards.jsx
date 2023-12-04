@@ -1,12 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from "../contexts/AuthProvider";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaHeart } from 'react-icons/fa';
+import Swal from 'sweetalert2'
 
 const Cards = ({item}) => {
+    const { name, recipe, image, price, _id } = item;
     const  [isHeartFilled, setIsHeartFilled] = useState(false);
     const {user} = useContext(AuthContext);
     // console.log("User", user);
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleHeartclick = () => {
         setIsHeartFilled(!isHeartFilled);
@@ -14,6 +19,51 @@ const Cards = ({item}) => {
 
     const handleAddToCart = (item) => {
         // console.log("btn is clicked", item);
+        if(user && user?.email){
+            const cartItem = { menuItem: _id, name, quantity: 1, image, price, email: user.email }
+            // console.log("Cart items", cartItem);
+
+            fetch('http://localhost:6001/cart', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(cartItem)
+            })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                if(data.insertedId){
+                    // sweetalert2; A custom positioned dialog
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                }
+            }) 
+        } else {
+            Swal.fire({
+                title: "Please Login",
+                text: "You have to login to make an order",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Login"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                //   Swal.fire({
+                //     title: "Deleted!",
+                //     text: "Your file has been deleted.",
+                //     icon: "success"
+                //   });
+                    navigate('/signin', {state:{from: location}})
+                }
+              });
+        }
 
     }
 

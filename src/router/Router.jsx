@@ -16,9 +16,13 @@ const router = createBrowserRouter([
           path: "/",
           element: <Home />,
         },
+        // {
+        //   path: "/menu",
+        //   element: <PrivateRoute><Menu /></PrivateRoute>,
+        // },
         {
           path: "/menu",
-          element: <PrivateRoute><Menu /></PrivateRoute>,
+          element: <Menu />,
         },
         {
           path: "/update-profile",

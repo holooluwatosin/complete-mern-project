@@ -33,9 +33,21 @@ async function run() {
 
     // all menu items operations
     app.get('/menu', async (req, res) => {
-      const result = await menuCollections.find().toArray()
+      const result = await menuCollections.find().toArray();
       res.send(result)
     });
+
+    // all carts operations
+
+    // posting carts to db
+    app.post('/cart', async (req, res) => {
+      const cartItem = req.body;
+      const result = await cartCollections.insertOne(cartItem);
+      res.send(result)
+    })
+
+    // get carts using email
+    app.get()
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
