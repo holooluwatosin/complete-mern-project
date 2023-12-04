@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from "../contexts/AuthProvider";
 import { Link } from 'react-router-dom';
 import { FaHeart } from 'react-icons/fa';
 
 const Cards = ({item}) => {
     const  [isHeartFilled, setIsHeartFilled] = useState(false);
+    const {user} = useContext(AuthContext);
+    // console.log("User", user);
 
     const handleHeartclick = () => {
         setIsHeartFilled(!isHeartFilled);
+    }
+
+    const handleAddToCart = (item) => {
+        // console.log("btn is clicked", item);
+
     }
 
   return (
@@ -33,7 +41,7 @@ const Cards = ({item}) => {
                         <span className='text-sm text-red'>&#163;</span>
                         {item.price}
                     </h5>
-                    <button className="btn bg-green text-white">Buy Now</button>
+                    <button onClick={() => {handleAddToCart(item)}} className="btn bg-green text-white">Add to Cart</button>
                 </div>
             </div>
         </div>
