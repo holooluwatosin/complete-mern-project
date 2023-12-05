@@ -1,6 +1,40 @@
 import React from "react";
+import useCart from "../../hooks/useCart";
+import { FaTrash } from "react-icons/fa";
+import Swal from 'sweetalert2'
 
 const CartPage = () => {
+  const [cart, refetch] = useCart();
+
+  // handleDelete
+  const handleDelete = (item) => {
+    // sweetalert2 >> A confirm dialog, with a function attached to the "Confirm"-button
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:6001/cart/${item._id}`, {
+          method: "DELETE"
+        }).then(res => res.json())
+        .then(data => {
+          if(data.deleteCount > 0){
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success"
+            });
+          }
+        })
+      }
+    });
+  }
+
   return (
     <div>
       {/* menu banner */}
@@ -31,40 +65,40 @@ const CartPage = () => {
           </thead>
           <tbody>
             {/* row 1 */}
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle w-12 h-12">
-                      <img
-                        src="/tailwind-css-component-profile-2@56w.png"
-                        alt="Avatar Tailwind CSS Component"
-                      />
+            {
+              cart.map((item, index) => (
+                <tr key={index}>
+                  {/* <th>
+                    <label>
+                      <input type="checkbox" className="checkbox" />
+                    </label>
+                  </th> */}
+                  <td>{ index + 1 }</td>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <div className="mask mask-squircle w-12 h-12">
+                          <img
+                            src={ item.image }
+                            alt="Avatar Tailwind CSS Component"
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <div className="font-bold">Hart Hagerty</div>
-                    <div className="text-sm opacity-50">United States</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Zemlak, Daniel and Leannon
-                <br />
-                <span className="badge badge-ghost badge-sm">
-                  Desktop Support Technician
-                </span>
-              </td>
-              <td>Purple</td>
-              <th>
-                <button className="btn btn-ghost btn-xs">details</button>
-              </th>
-            </tr>
+                  </td>
+                  <td className="font-medium">
+                    {item.name}
+                  </td>
+                  <td>{ item.quantity }</td>
+                  <td>{ item.price }</td>
+                  <th>
+                    <button className="btn btn-ghost text-red btn-xs" onClick={() => handleDelete(item)}>
+                      <FaTrash />
+                    </button>
+                  </th>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
       </div>
