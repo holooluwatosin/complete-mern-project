@@ -1,10 +1,92 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import useCart from "../../hooks/useCart";
 import { FaTrash } from "react-icons/fa";
 import Swal from 'sweetalert2'
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const CartPage = () => {
   const [cart, refetch] = useCart();
+  const {user} = useContext(AuthContext);
+  const [cartItems, setCartItems] = useState([]);
+  console.log("CartItems (CartPage.jsx)", cartItems)
+
+  // Calculate the total price for each item in the cart
+  const calculateTotalPrice = (item) => {
+    return item.price * item.quantity;
+  };
+ // Handle quantity increase
+  const handleIncrease = async (item) => {
+    try {
+      const response = await fetch(`http://localhost:6001/cart/${item._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ quantity: item.quantity + 1 }),
+      });
+
+      if (response.ok) {
+        const updatedCart = cartItems.map((cartItem) => {
+          if (cartItem.id === item.id) {
+            return {
+              ...cartItem,
+              quantity: cartItem.quantity + 1,
+            };
+          }
+          return cartItem;
+        });
+        refetch()
+        setCartItems(updatedCart);
+    
+      } else {
+        console.error("Failed to update quantity");
+      }
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+    }
+  };
+
+  // Handle quantity decrease
+  const handleDecrease = async (item) => {
+    if (item.quantity > 1) {
+      try {
+        const response = await fetch(`http://localhost:6001/cart/${item._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ quantity: item.quantity - 1 }),
+        });
+
+        if (response.ok) {
+          const updatedCart = cartItems.map((cartItem) => {
+            if (cartItem.id === item.id) {
+              return {
+                ...cartItem,
+                quantity: cartItem.quantity - 1,
+              };
+            }
+            return cartItem;
+          });
+          refetch()
+          setCartItems(updatedCart);
+        } else {
+          console.error("Failed to update quantity");
+        }
+      } catch (error) {
+        console.error("Error updating quantity:", error);
+      }
+    }
+  };
+
+  // Calculate the cart subtotal
+  const cartSubtotal = cart.reduce((total, item) => {
+    return total + calculateTotalPrice(item);
+  }, 0);
+
+  // Calculate the order total
+  const orderTotal = cartSubtotal;
+  // console.log(orderTotal)
 
   // handleDelete
   const handleDelete = (item) => {
@@ -23,7 +105,8 @@ const CartPage = () => {
           method: "DELETE"
         }).then(res => res.json())
         .then(data => {
-          if(data.deleteCount > 0){
+          if(data.deletedCount > 0){
+            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -36,7 +119,7 @@ const CartPage = () => {
   }
 
   return (
-    <div>
+    <div className="section-container">
       {/* menu banner */}
       <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100%">
         <div className="py-36 flex flex-col items-center justify-center">
@@ -89,8 +172,27 @@ const CartPage = () => {
                   <td className="font-medium">
                     {item.name}
                   </td>
-                  <td>{ item.quantity }</td>
-                  <td>{ item.price }</td>
+                  <td>
+                    <button
+                      className="btn btn-xs"
+                      onClick={() => handleDecrease(item)}
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      value={item.quantity}
+                      onChange={() => console.log(item.quantity)}
+                      className="w-10 mx-2 text-center overflow-hidden appearance-none"
+                    />
+                    <button
+                      className="btn btn-xs"
+                      onClick={() => handleIncrease(item)}
+                    >
+                      +
+                    </button>
+                  </td>
+                  <td>${calculateTotalPrice(item).toFixed(2)}</td>
                   <th>
                     <button className="btn btn-ghost text-red btn-xs" onClick={() => handleDelete(item)}>
                       <FaTrash />
@@ -101,6 +203,22 @@ const CartPage = () => {
             }
           </tbody>
         </table>
+      </div>
+
+      {/* customer details */}
+      <div className="my-12 flex flex-col md:flex-row justify-between items-start">
+        <div className="md:w-1/2 space-y-3">
+          <h3 className="font-medium">Customer Details</h3>
+          <p>Name: {user.displayName}</p>
+          <p>Email: {user.email}</p>
+          <p>User ID: {user.uid}</p>
+        </div>
+        <div className="md:w-1/2 space-y-3">
+        <h3 className="font-medium">shopping Details</h3>
+          <p>Total Items: {cart.length}</p>
+          <p>Total Price: ${orderTotal.toFixed(2)}</p>
+          <button className="btn bg-green text-white">Proceed Checkout</button>
+        </div>
       </div>
     </div>
   );

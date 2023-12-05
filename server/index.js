@@ -5,7 +5,7 @@ const port = process.env.PORT || 6001
 require('dotenv').config()
 // console.log(process.env)
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@complete-mern-project-c.zvaowri.mongodb.net/?retryWrites=true&w=majority`;
 
 // middleware
@@ -71,6 +71,29 @@ async function run() {
       const result = await cartCollections.deleteOne(deleteCartItem);
       res.send(result);
     })
+
+    // update cart quantity
+    app.put('/cart/:id', async (req, res) => {
+      const itemId = new ObjectId(req.params.id);
+      const { quantity } = req.body;
+  
+      try {
+        const result = await cartCollections.updateOne(
+          { _id: itemId },
+          { $set: { quantity: parseInt(quantity, 10) } }
+        );
+  
+        if (result.modifiedCount === 1) {
+          res.status(200).json({ message: 'Quantity updated successfully' });
+        } else {
+          res.status(404).json({ message: 'Item not found' });
+        }
+      } catch (error) {
+        console.error('Error updating quantity:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    });
+    
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
